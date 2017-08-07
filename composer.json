@@ -1,0 +1,39 @@
+{
+    "name": "platx/yii2-upload",
+    "description": "Useful upload behavior for Yii Framework 2",
+    "type": "yii2-extension",
+    "version": "1.0.0-dev",
+    "keywords": [
+        "yii",
+        "yii2",
+        "image",
+        "extension",
+        "upload",
+        "image upload",
+        "upload behavior",
+        "file upload"
+    ],
+    "license": "BSD-3-Clause",
+    "homepage": "https://github.com/platx/yii2-upload",
+    "support": {
+        "source": "https://github.com/platx/yii2-upload",
+        "docs": "https://github.com/platx/yii2-upload/blob/master/README.md",
+        "issues": "https://github.com/platx/yii2-upload/issues"
+    },
+    "authors": [
+        {
+            "name": "Vladyslav Platonov",
+            "email": "vladyslav.platonov@gmail.com",
+            "homepage": "http://plat-x.com/"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "platx\\upload\\": "src/"
+        }
+    }
+}
