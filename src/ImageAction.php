@@ -66,7 +66,8 @@ class ImageAction extends Action
         if($this->sizeList && !in_array("{$width}x{$height}", $this->sizeList) && ($width > 0 || $height > 0)){
             throw new InvalidConfigException(\Yii::t(
                 'platx/upload',
-                'Parameters width and height are required'
+                'Size {width}x{height} is not allowed',
+                ['width' => $width, 'height' => $height]
             ));
         }
 

@@ -23,8 +23,7 @@ return [
     'Unable to handle file' => 'Не вдалося обробити файл',
     'Unable to create directory \'{directory}\'' => 'Неможливо створити каталог \'{directory}\'',
 
-    'Parameters \'width\' and \'height\' are required' => 'Параметри \'width\' та \'height\' обов\'язкові',
-    'Parameter \'modelClass\' is required' => 'Параметр \'modelClass\' обов\'язковий',
+    'Size {width}x{height} is not allowed' => 'Розмір {width}x{height} не дозволено',
     'File \'{name}\' not found' => 'Файл \'{name}\' не знайдено',
     'File \'{name}\' is not an image' => 'Файл \'{name}\' не є зображенням',
     'Can not create directory \'{directory}\'' => 'Неможливо створити каталог \'{directory}\'',
