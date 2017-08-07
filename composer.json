@@ -2,7 +2,7 @@
     "name": "platx/yii2-upload",
     "description": "Useful upload behavior for Yii Framework 2",
     "type": "yii2-extension",
-    "version": "1.0.0-dev",
+    "version": "1.0.1-dev",
     "keywords": [
         "yii",
         "yii2",

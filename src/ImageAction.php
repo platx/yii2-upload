@@ -65,7 +65,7 @@ class ImageAction extends Action
     {
         if($this->sizeList && !in_array("{$width}x{$height}", $this->sizeList) && ($width > 0 || $height > 0)){
             throw new InvalidConfigException(\Yii::t(
-                'platx/upload/action',
+                'platx/upload',
                 'Parameters width and height are required'
             ));
         }
@@ -87,7 +87,7 @@ class ImageAction extends Action
 
         if (!file_exists($path)) {
             throw new NotFoundHttpException(\Yii::t(
-                'platx/upload/action',
+                'platx/upload',
                 'File \'{name}\' not found',
                 ['name' => basename($path)]
             ));
@@ -95,7 +95,7 @@ class ImageAction extends Action
 
         if(!is_array(getimagesize($path))){
             throw new ForbiddenHttpException(\Yii::t(
-                'platx/upload/action',
+                'platx/upload',
                 'File \'{name}\' is not an image',
                 ['name' => basename($path)]
             ));
@@ -109,7 +109,7 @@ class ImageAction extends Action
 
             if (!FileHelper::createDirectory($dirName, 0777)) {
                 throw new ForbiddenHttpException(\Yii::t(
-                    'platx/upload/action',
+                    'platx/upload',
                     'Can not create directory \'{directory}\'',
                     ['directory' => $dirName]
                 ));
@@ -117,7 +117,7 @@ class ImageAction extends Action
 
             if (!extension_loaded('imagick')) {
                 throw new InvalidConfigException(\Yii::t(
-                    'platx/upload/action',
+                    'platx/upload',
                     'Imagick not installed'
                 ));
             }
