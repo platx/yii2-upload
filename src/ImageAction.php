@@ -41,12 +41,12 @@ class ImageAction extends Action
         $i18n = \Yii::$app->i18n;
 
         if ($i18n) {
-            $i18n->translations['platx/upload/action'] = [
+            $i18n->translations['platx/upload'] = [
                 'class' => 'yii\i18n\PhpMessageSource',
                 'sourceLanguage' => 'en-US',
                 'basePath' => __DIR__ . '/messages',
                 'fileMap' => [
-                    'platx/upload/action' => 'action.php',
+                    'platx/upload' => 'upload.php',
                 ],
             ];
         }
