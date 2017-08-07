@@ -18,7 +18,7 @@ class ImageUploadBehavior extends FileUploadBehavior
     const EVENT_AFTER_UPLOAD = 'afterUpload';
 
     /** @var bool|string Size folder to add */
-    public $sizeFolder = 'original';
+    public $originalFolder = 'original';
 
     /** @var bool Whether to fix jpeg image orientation */
     public $fixImageOrientation = false;
@@ -73,7 +73,7 @@ class ImageUploadBehavior extends FileUploadBehavior
      */
     public function getFilePath($url)
     {
-        $path = "{$this->basePath}/{$this->sizeFolder}/{$url}";
+        $path = "{$this->basePath}/{$this->originalFolder}/{$url}";
 
         return FileHelper::normalizePath(\Yii::getAlias($path));
     }
@@ -93,7 +93,7 @@ class ImageUploadBehavior extends FileUploadBehavior
         $link = $this->owner->{$attribute};
 
         if (!$size) {
-            $size = $this->sizeFolder;
+            $size = $this->originalFolder;
         }
 
         return Url::to(FileHelper::normalizePath("{$this->baseUrl}/{$size}/{$link}"), $isAbsolute);

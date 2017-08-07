@@ -23,8 +23,11 @@ class ImageAction extends Action
      */
     public $sizeList = [];
 
-    /** @var string $modelClass Class name of model to handle */
-    public $modelClass;
+    /** @var string Base path to uploads on server */
+    public $basePath = '@app/web/uploads';
+
+    /** @var string Folder name for original image files */
+    public $originalFolder = 'original';
 
     public function init()
     {
@@ -52,6 +55,12 @@ class ImageAction extends Action
         }
     }
 
+    /**
+     * @param integer $width Image width
+     * @param integer $height Image height
+     * @param string $link File link with file name
+     * @throws InvalidConfigException
+     */
     public function run($width, $height, $link)
     {
         if($this->sizeList && !in_array("{$width}x{$height}", $this->sizeList) && ($width > 0 || $height > 0)){
@@ -61,37 +70,20 @@ class ImageAction extends Action
             ));
         }
 
-        $model = \Yii::createObject($this->modelClass);
-
-        if (!($model instanceof \yii\db\BaseActiveRecord)) {
-            throw new InvalidConfigException(\Yii::t(
-                'platx/upload/action',
-                'Parameter \'modelClass\' is required'
-            ));
-        }
-
-        $model->ensureBehaviors();
-        $behaviors = $model->getBehaviors();
-
-        foreach ($behaviors as $behavior) {
-            if ($behavior instanceof ImageUploadBehavior) {
-                $this->handle($width, $height, $link, $behavior);
-            }
-        }
+        $this->handle($width, $height, $link);
     }
 
     /**
-     * @param $width
-     * @param $height
-     * @param $link
-     * @param $behavior
+     * @param integer $width Image width
+     * @param integer $height Image height
+     * @param string $link File link with file name
      * @throws ForbiddenHttpException
      * @throws InvalidConfigException
      * @throws NotFoundHttpException
      */
-    protected function handle($width, $height, $link, $behavior)
+    protected function handle($width, $height, $link)
     {
-        $path = FileHelper::normalizePath(\Yii::getAlias("{$behavior->basePath}/{$behavior->sizeFolder}/{$link}"));
+        $path = FileHelper::normalizePath(\Yii::getAlias("{$this->basePath}/{$this->originalFolder}/{$link}"));
 
         if (!file_exists($path)) {
             throw new NotFoundHttpException(\Yii::t(
@@ -109,7 +101,7 @@ class ImageAction extends Action
             ));
         }
 
-        $newPath = FileHelper::normalizePath(\Yii::getAlias("{$behavior->basePath}/{$width}x{$height}/{$link}"));
+        $newPath = FileHelper::normalizePath(\Yii::getAlias("{$this->basePath}/{$width}x{$height}/{$link}"));
 
         if (!file_exists($newPath)) {
 

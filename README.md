@@ -10,7 +10,7 @@ Following formats of uploads are supported:
 Package includes 3 classes:
  * FileUploadBehavior - main behavior to handle files
  * ImageUploadBehavior - extended class to handle image files, includes functional to 
-    fix image orientation for jpeg images, parameter `sizeFolder` to store files in original 
+    fix image orientation for jpeg images, parameter `originalFolder` to store files in original 
     size folder (for ImageAction)
  * ImageAction - makes different sizes for images, that stores resized files to folder
     near original folder, named "{width}x{height}.
@@ -152,7 +152,7 @@ Configuration options for platx\upload\FileUploadBehavior:
  * **messageUnableSaveFile** - Error message if unable to save file to destination folder. Type: `string`. Default value: `From message source`.
  * **messageUnableHandleFile** - Error message if unable to handle upload and make UploadedFile instance. Type: `string`. Default value: `From message source`.
  * **messageUnableCreateDirectory** - Error message if unable to create destination folder for file. Type: `string`. Default value: `From message source`.
- * **sizeFolder**(ImageUploadBehavior) - Folder name to store original image files (can be changed in ImageUploadBehavior). Type: `string`. Default value: `original`.
+ * **originalFolder**(ImageUploadBehavior) - Folder name to store original image files (can be changed in ImageUploadBehavior). Type: `string`. Default value: `original`.
 
 Attach the image action in your controller class:
 
@@ -163,16 +163,19 @@ public function actions()
         'upload' => [
             'image' => [
                 'class' => \platx\upload\ImageAction::className(),
-                'modelClass' => \app\models\Article::className(),
+                'basePath' => '@app/web/uploads',
+                'originalFolder' => 'original',
                 'sizeList' => ['500x500','200x0','0x300']
             ],
         ]
     ];
 }
 ```
-where `modelClass` - ActiveRecord model class, which includes ImageUploadBehavior,
-`sizeList` - Allowed size list of generated images, if is empty, any size is allowed to resize.
-If you will put 0 to width or height, it will be dynamic to save image ratio.
+where:
+ - `sizeList` - Allowed size list of generated images, if is empty, any size is allowed to resize.
+                If you will put 0 to width or height, it will be dynamic to save image ratio.
+ - `basePath` - Base server path to image uploads
+ - `originalFolder` - Folder name with original image files                
 
 Add following to your UrlManager component rules:
 ```text
