@@ -23,29 +23,6 @@ class ImageUploadBehavior extends FileUploadBehavior
     /** @var bool Whether to fix jpeg image orientation */
     public $fixImageOrientation = false;
 
-    public function init()
-    {
-        parent::init();
-
-        $this->registerTranslations();
-    }
-
-    protected function registerTranslations()
-    {
-        $i18n = \Yii::$app->i18n;
-
-        if ($i18n) {
-            $i18n->translations['platx/upload/image'] = [
-                'class' => 'yii\i18n\PhpMessageSource',
-                'sourceLanguage' => 'en-US',
-                'basePath' => __DIR__ . '/messages',
-                'fileMap' => [
-                    'platx/upload/image' => 'image.php',
-                ],
-            ];
-        }
-    }
-
     /**
      * Deletes stored file
      * @param string $attribute Model attribute name
