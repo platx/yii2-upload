@@ -640,6 +640,8 @@ class FileUploadBehavior extends Behavior
             return false;
         }
 
+        $this->deleteFile($attribute);
+
         return true;
     }
 
