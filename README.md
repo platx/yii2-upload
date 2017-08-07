@@ -6,6 +6,14 @@ Following formats of uploads are supported:
  * Remote file url
  * Base64
  * Server path
+ 
+Package includes 3 classes:
+ * FileUploadBehavior - main behavior to handle files
+ * ImageUploadBehavior - extended class to handle image files, includes functional to 
+    fix image orientation for jpeg images, parameter `sizeFolder` to store files in original 
+    size folder (for ImageAction)
+ * ImageAction - makes different sizes for images, that stores resized files to folder
+    near original folder, named "{width}x{height}.
 
 Installation
 ------------
@@ -38,6 +46,7 @@ public function behaviors()
     return [
         'upload' => [
             'class' => 'platx\upload\FileUploadBehavior',
+            // or 'class' => 'platx\upload\ImageUploadBehavior',
             'attributes' => ['image'], // Model attributes to handle
             'scenarios' => ['default'], // Scenarios to handle
             'basePath' => '@app/web/uploads', // Base path on server to store files
@@ -143,7 +152,32 @@ Configuration options for platx\upload\FileUploadBehavior:
  * **messageUnableSaveFile** - Error message if unable to save file to destination folder. Type: `string`. Default value: `From message source`.
  * **messageUnableHandleFile** - Error message if unable to handle upload and make UploadedFile instance. Type: `string`. Default value: `From message source`.
  * **messageUnableCreateDirectory** - Error message if unable to create destination folder for file. Type: `string`. Default value: `From message source`.
+ * **sizeFolder**(ImageUploadBehavior) - Folder name to store original image files (can be changed in ImageUploadBehavior). Type: `string`. Default value: `original`.
 
+Attach the image action in your controller class:
+
+```php
+public function actions()
+{
+    return [
+        'upload' => [
+            'image' => [
+                'class' => \platx\upload\ImageAction::className(),
+                'modelClass' => \app\models\Article::className(),
+                'sizeList' => ['500x500','200x0','0x300']
+            ],
+        ]
+    ];
+}
+```
+where `modelClass` - ActiveRecord model class, which includes ImageUploadBehavior,
+`sizeList` - Allowed size list of generated images, if is empty, any size is allowed to resize.
+If you will put 0 to width or height, it will be dynamic to save image ratio.
+
+Add following to your UrlManager component rules:
+```text
+    '/uploads/<width:[\d]+>x<height:[\d]+>/<link:[\w\d\/-_\.]+>' => '/your_controller/image'
+```
 
 Usage
 -----
