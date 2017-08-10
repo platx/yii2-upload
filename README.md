@@ -154,6 +154,19 @@ Configuration options for platx\upload\FileUploadBehavior:
  * **messageUnableCreateDirectory** - Error message if unable to create destination folder for file. Type: `string`. Default value: `From message source`.
  * **originalFolder**(ImageUploadBehavior) - Folder name to store original image files (can be changed in ImageUploadBehavior). Type: `string`. Default value: `original`.
 
+
+Then to enable file validation you should add it to rules array of your model, like this:
+```php
+public function rules()
+{
+    return [
+        ['file_image', 'file'],
+        // or
+        ['file_image', 'image'],
+    ];
+}
+```
+
 Attach the image action in your controller class:
 
 ```php
@@ -185,7 +198,19 @@ Add following to your UrlManager component rules:
 Usage
 -----
 
-Example view file:
+To upload file, use attribute name `{prefix}_{attribute}`.
+To get file url, use function `getFileUrl($attribute, $isAbsolute)` for FileUploadBehavior and 
+`getFileUrl($attribute, $isAbsolute, $size)` for ImageUploadBehavior with ImageAction configured,
+where:
+ - $attribute - your attribute name
+ - $isAbsolute - whether to make your file url absolute or not (with http/https and your site domain)
+ - $size - Size to needed size of image in `{width}x{height}` format
+
+For example, you have attribute named `image` and behavior property `prefix` equals `file_`. 
+To upload file, you should use attribute `file_image`.
+To get file url, you should use function of your model `$model->getFileUrl('image')`.
+
+Example form file:
 ```text
 <?php $form = \yii\bootstrap\ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
     <?= $form->field($model, 'file_image')->fileInput() ?>
@@ -194,3 +219,13 @@ Example view file:
     </div>
 <?php $form->end(); ?>
 ```
+
+Example view file:
+```text
+<?= \yii\helpers\Html::img($model->getFileUrl('image')); ?>
+```
+or using with ImageAction configured:
+```text
+<?= \yii\helpers\Html::img($model->getFileUrl('image', false, '100x100')); ?>
+```
+

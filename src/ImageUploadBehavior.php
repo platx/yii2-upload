@@ -84,7 +84,7 @@ class ImageUploadBehavior extends FileUploadBehavior
      * @param bool $isAbsolute
      * @return null|string
      */
-    public function getUrl($attribute, $size = null, $isAbsolute = false)
+    public function getFileUrl($attribute, $isAbsolute = false, $size = null)
     {
         if (empty($this->owner->{$attribute})) {
             return null;

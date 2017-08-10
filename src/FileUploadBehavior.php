@@ -414,14 +414,14 @@ class FileUploadBehavior extends Behavior
                 continue;
             }
 
-            $url = $this->getFileUrl($attribute);
-            $path = $this->getFilePath($url);
+            $link = $this->getFileLink($attribute);
+            $path = $this->getFilePath($link);
 
             $this->getOwner()->trigger(self::EVENT_BEFORE_UPLOAD);
             $directory = dirname($path);
             if (is_string($path) && FileHelper::createDirectory($directory, 0777)) {
                 if ($this->saveFile($attribute, $path)) {
-                    $this->getOwner()->updateAttributes([$attribute => $url]);
+                    $this->getOwner()->updateAttributes([$attribute => $link]);
                     $this->getOwner()->trigger(self::EVENT_AFTER_UPLOAD);
                 }
             } else {
@@ -454,11 +454,11 @@ class FileUploadBehavior extends Behavior
      * @param string $attribute Model attribute name
      * @return string File url to store in database
      */
-    public function getFileUrl($attribute)
+    public function getFileLink($attribute)
     {
-        $url = "{$this->getLink($attribute)}/{$this->getFileName($attribute)}";
+        $link = "{$this->getLink($attribute)}/{$this->getFileName($attribute)}";
 
-        return FileHelper::normalizePath($url, '/');
+        return FileHelper::normalizePath($link, '/');
     }
 
     /**
@@ -593,12 +593,12 @@ class FileUploadBehavior extends Behavior
 
     /**
      * Makes absolute server path to file destination
-     * @param string $url Url to file without base path
+     * @param string $link Link to file without base path
      * @return string Absolute server path
      */
-    public function getFilePath($url)
+    public function getFilePath($link)
     {
-        $path = "{$this->basePath}/{$url}";
+        $path = "{$this->basePath}/{$link}";
 
         return FileHelper::normalizePath(\Yii::getAlias($path));
     }
@@ -650,7 +650,7 @@ class FileUploadBehavior extends Behavior
      * @param bool $isAbsolute
      * @return null|string
      */
-    public function getUrl($attribute, $isAbsolute = false)
+    public function getFileUrl($attribute, $isAbsolute = false)
     {
         if (empty($this->owner->{$attribute})) {
             return null;
